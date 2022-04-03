@@ -94,8 +94,16 @@ final class VideoObj implements Comparable<VideoObj> {
    */
   public int hashCode() {
     // TODO
-    int hash = 17;
-    return 37 * hash + (this._title.hashCode() + this._year + this._director.hashCode());
+    int result = 17;
+    int c = this._title.hashCode();
+    result = 37 * result + c;
+
+    c =  Integer.hashCode(this._year);
+    result = 37 * result + c;
+
+    c =  this._director.hashCode();
+    result = 37 * result + c;
+    return result;
   }
 
   /**

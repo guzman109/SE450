@@ -80,13 +80,13 @@ public class InventoryTEST extends TestCase {
     Assert.assertTrue(s.toCollection() != s.toCollection());
     
     s.addNumOwned(v1, 1);
-    Record r1 = s.toCollection().iterator().next();
-    Record r2 = s.toCollection().iterator().next();
+    Record r1 = (Record) s.toCollection().iterator().next();
+    Record r2 = (Record) s.toCollection().iterator().next();
     Assert.assertTrue( r1 != r2);
     Assert.assertTrue( r1.numOwned == r2.numOwned);
     
     s.addNumOwned(v1, 1);
-    Record r3 = s.toCollection().iterator().next();
+    Record r3 = (Record) s.toCollection().iterator().next();
     Assert.assertTrue( r1.numOwned != r3.numOwned);
 
     s.clear();

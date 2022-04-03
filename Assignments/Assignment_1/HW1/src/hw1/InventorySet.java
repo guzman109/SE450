@@ -27,7 +27,8 @@ final class InventorySet {
    */
   public int size() {
     // TODO
-    return this._data.values().size();
+    System.out.println(this.toString()+ this._data.size());
+    return this._data.size();
   }
 
   /**
@@ -35,7 +36,7 @@ final class InventorySet {
    */
   public Record get(VideoObj v) {
     // TODO
-    return this._data.get(v);
+    return this._data.get(v).copy();
   }
 
   /**
@@ -45,7 +46,10 @@ final class InventorySet {
   public Collection toCollection() {
     // Recall that an ArrayList is a Collection.
     // TODO
-    return this._data.values();
+    Collection<Record> collection = new ArrayList<Record>();
+    for (Record r : this._data.values())
+      collection.add(r.copy());
+    return collection;
   }
 
   /**
@@ -54,17 +58,25 @@ final class InventorySet {
    * positive), a record is created. 
    * If a record is already present, <code>numOwned</code> is
    * modified using <code>change</code>.
-   * If <code>change</code> brings the number of copies to be zero,
-   * the record is removed from the inventory.
+   * If <code>change</code> brings the number of copies to be less
+   * than one, the record is removed from the inventory.
    * @param video the video to be added.
    * @param change the number of copies to add (or remove if negative).
-   * @throws IllegalArgumentException if video null, change is zero,
-   *  if attempting to remove more copies than are owned, or if
-   *  attempting to remove copies that are checked out.
+   * @throws IllegalArgumentException if video null or change is zero
    * @postcondition changes the record for the video
    */
   public void addNumOwned(VideoObj video, int change) {
-    // TODO
+    // TODO  
+    System.out.println(this._data.containsKey(video));
+    if (video == null || change == 0 || (!this._data.containsKey(video) && change < 0))
+      throw new IllegalArgumentException();
+    if (!this._data.containsKey(video) && 0 < change)
+      this._data.put(video, new Record(video, change, 0, 0));
+    else {
+      this._data.get(video).numOwned += change;
+      if (this._data.get(video).numOwned  < 1)
+        this._data.remove(video);
+    }
   }
 
   /**
@@ -76,6 +88,11 @@ final class InventorySet {
    */
   public void checkOut(VideoObj video) {
     // TODO
+    if (!this._data.containsKey(video) || this._data.get(video).numOut == this._data.get(video).numOwned)
+      throw new IllegalArgumentException();
+    
+    this._data.get(video).numOut++;
+    this._data.get(video).numRentals++;
   }
   
   /**
@@ -87,6 +104,10 @@ final class InventorySet {
    */
   public void checkIn(VideoObj video) {
     // TODO
+    if (!this._data.containsKey(video) || this._data.get(video).numOut < 1)
+      throw new IllegalArgumentException();
+
+    this._data.get(video).numOut--;
   }
   
   /**
@@ -95,6 +116,7 @@ final class InventorySet {
    */
   public void clear() {
     // TODO
+    this._data.clear();
   }
 
   /**
