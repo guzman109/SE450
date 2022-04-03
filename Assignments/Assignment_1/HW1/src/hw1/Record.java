@@ -6,7 +6,7 @@ package hw1;
  *
  * @objecttype Mutable Data Class
  */
-final class Record {
+public final class Record {
   /**
    * The video.
    * @invariant <code>video != null</code>

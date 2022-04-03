@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @objectinvariant
  *   Each value <code>r</code> is stored under key <code>r.video</code>.
  */
-final class InventorySet {
+public final class InventorySet {
   /** @invariant <code>_data != null</code> */
   private final Map<VideoObj,Record> _data = new HashMap<VideoObj,Record>();
 
@@ -27,7 +27,6 @@ final class InventorySet {
    */
   public int size() {
     // TODO
-    System.out.println(this.toString()+ this._data.size());
     return this._data.size();
   }
 
@@ -67,7 +66,6 @@ final class InventorySet {
    */
   public void addNumOwned(VideoObj video, int change) {
     // TODO  
-    System.out.println(this._data.containsKey(video));
     if (video == null || change == 0 || (!this._data.containsKey(video) && change < 0))
       throw new IllegalArgumentException();
     if (!this._data.containsKey(video) && 0 < change)

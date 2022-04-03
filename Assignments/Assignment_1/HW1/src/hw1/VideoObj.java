@@ -13,7 +13,7 @@ package hw1;
  * @objectinvariant
  *   Director is non-null, no leading or final spaces, not empty string.
  */
-final class VideoObj implements Comparable<VideoObj> {
+public final class VideoObj implements Comparable<VideoObj> {
   /** @invariant non-null, no leading or final spaces, not empty string */
   private final String _title;
   /** @invariant greater than 1800, less than 5000 */
@@ -115,7 +115,7 @@ final class VideoObj implements Comparable<VideoObj> {
    */
   public int compareTo(VideoObj that) {
     // TODO
-  Integer year = this._year;
+    Integer year = this._year;
     return this._title.compareTo(that.title()) + year.compareTo(that.year()) + this._director.compareTo(that.director());
   }
 
