@@ -28,15 +28,16 @@ final class VideoObj implements Comparable<VideoObj> {
    */
   VideoObj(String title, int year, String director) {
     // TODO
-    if (title.isBlank() || title.startsWith(" ") || title.endsWith(" ") || title == null)
+    if (title == null || title.isBlank())
       throw new IllegalArgumentException();
-    else if (director.isBlank() || director.startsWith(" ") || director.endsWith(" ") || director == null)
+    else if (director == null || director.isBlank())
       throw new IllegalArgumentException();
-    else if (year < 1800 || year > 5000)
+    else if (year <= 1800 || year >= 5000)
       throw new IllegalArgumentException();
-    this._title = title;
+
+    this._title = title.strip();
     this._year = year;
-    this._director = director;
+    this._director = director.strip();
      
   }
 
@@ -72,14 +73,18 @@ final class VideoObj implements Comparable<VideoObj> {
   public boolean equals(Object thatObject) {
     // TODO
     boolean is_equal = true;
+    if (thatObject == null || getClass() != thatObject.getClass())
+      is_equal = false;
+    else {
+      VideoObj tempObject = VideoObj.class.cast(thatObject);
 
-    if (this._title.equals(((VideoObj)thatObject).title()))
-      is_equal = false;
-    if (this._year == ((VideoObj)thatObject).year())
-      is_equal = false;
-    if (this._director.equals(((VideoObj)thatObject).director()))
-      is_equal = false;
-    
+      if (!this._title.equals(tempObject.title()))
+        is_equal = false;
+      if (this._year != tempObject.year())
+        is_equal = false;
+      if (!this._director.equals(tempObject.director()))
+        is_equal = false;
+    }
     return is_equal;
   }
 
@@ -89,7 +94,8 @@ final class VideoObj implements Comparable<VideoObj> {
    */
   public int hashCode() {
     // TODO
-    return 17 + this._title.hashCode() + Integer.hashCode(this._year) + this._director.hashCode();
+    int hash = 17;
+    return 37 * hash + (this._title.hashCode() + this._year + this._director.hashCode());
   }
 
   /**

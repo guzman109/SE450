@@ -81,8 +81,9 @@ public class VideoTEST extends TestCase {
     Assert.assertFalse( a.equals( new VideoObj(title+"1", year, director) ) );
     Assert.assertFalse( a.equals( new VideoObj(title, year+1, director) ) );
     Assert.assertFalse( a.equals( new VideoObj(title, year, director+"1") ) );
-    Assert.assertFalse( a.equals( new Object() ) );
+    Assert.assertFalse( a.equals( new Object() ));
     Assert.assertFalse( a.equals( null ) );
+
   }
 
   public void testCompareTo() { 
@@ -107,11 +108,11 @@ public class VideoTEST extends TestCase {
     Assert.assertTrue( a.compareTo(b) < 0 );
     Assert.assertTrue( a.compareTo(b) == -b.compareTo(a) );
 
-    // try {
-    //  a.compareTo(null);
-    //  fail();
-    // } catch ( NullPointerException e ) {}
-    //  catch ( ClassCastException e ) {}
+    try {
+     a.compareTo(null);
+     fail();
+    } catch ( NullPointerException e ) {}
+     catch ( ClassCastException e ) {}
   }
 
   public void testToString() { 
