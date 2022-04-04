@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @objectinvariant
  *   Each value <code>r</code> is stored under key <code>r.video</code>.
  */
-public final class InventorySet {
+final class InventorySet {
   /** @invariant <code>_data != null</code> */
   private final Map<VideoObj,Record> _data = new HashMap<VideoObj,Record>();
 
