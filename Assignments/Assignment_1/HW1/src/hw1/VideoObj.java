@@ -29,11 +29,11 @@ public final class VideoObj implements Comparable<VideoObj> {
   VideoObj(String title, int year, String director) {
     // TODO
     if (title == null || title.isBlank())
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Title is null, has leading or trailing white space, or is an empty string");
     else if (director == null || director.isBlank())
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Director is null, has leading or trailing white space, or is an empty string");
     else if (year <= 1800 || year >= 5000)
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Year is less than 1800 or greater than 5000");
 
     this._title = title.strip();
     this._year = year;

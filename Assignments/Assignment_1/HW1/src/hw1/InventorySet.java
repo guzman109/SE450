@@ -67,7 +67,7 @@ final class InventorySet {
   public void addNumOwned(VideoObj video, int change) {
     // TODO  
     if (video == null || change == 0 || (!this._data.containsKey(video) && change < 0))
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Video is null or change is zero.");
     if (!this._data.containsKey(video) && 0 < change)
       this._data.put(video, new Record(video, change, 0, 0));
     else {
@@ -87,7 +87,7 @@ final class InventorySet {
   public void checkOut(VideoObj video) {
     // TODO
     if (!this._data.containsKey(video) || this._data.get(video).numOut == this._data.get(video).numOwned)
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Video has no record or number of copies to check out.");
     
     this._data.get(video).numOut++;
     this._data.get(video).numRentals++;
@@ -103,7 +103,7 @@ final class InventorySet {
   public void checkIn(VideoObj video) {
     // TODO
     if (!this._data.containsKey(video) || this._data.get(video).numOut < 1)
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Video has no record or numOut is not positive.");
 
     this._data.get(video).numOut--;
   }
