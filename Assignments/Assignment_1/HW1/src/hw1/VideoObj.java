@@ -77,7 +77,7 @@ public final class VideoObj implements Comparable<VideoObj> {
   public boolean equals(Object thatObject) {
     // TODO
     boolean is_equal = true;
-    if (thatObject == null || getClass() != thatObject.getClass())
+    if (thatObject == null || !(thatObject instanceof VideoObj))
       is_equal = false;
     else {
       VideoObj tempObject = VideoObj.class.cast(thatObject);
