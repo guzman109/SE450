@@ -5,14 +5,15 @@ import java.util.ArrayList;
 
 public class ImmutableInt {
     final int x;
-    ImmutableInt (int x) { this.x = x; }
+    public ImmutableInt (int x) { this.x = x; }
 
-    int get() { return x; }
-    ImmutableInt set (int y) { return new ImmutableInt(y); }
+    public int get() { return x; }
+    public ImmutableInt set (int y) { return new ImmutableInt(y); }
 
     public boolean equals (Object o) {
-        ImmutableInt that = (ImmutableInt) o;
-        return that.x == x;
+        if (! (o instanceof ImmutableInt))
+            return false;
+        return ((ImmutableInt) o).x == this.x;
     }
     public static void main(String[] args) {
         ImmutableInt i = new ImmutableInt(3);
