@@ -53,5 +53,6 @@ public class ImmutableIntTest extends  TestCase{
         // Non-Nullity
         Assert.assertEquals(false, i1.equals(null));
         Assert.assertEquals(false, i4.equals(null));
+        Assert.assertEquals(false, i2.equals(new Object ()));
     }
 }
