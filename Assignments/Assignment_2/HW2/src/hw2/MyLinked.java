@@ -52,8 +52,8 @@ public class MyLinked {
 
     // delete the kth element
     public void delete (int k) {
-        assert checkInvariants();
-        if (k < 0 || k >= N) throw new IllegalArgumentException ();
+        assert (k >= 0 || k <= N);
+        // if (k < 0 || k >= N) throw new IllegalArgumentException ();
         if (k == 0)
             this.first = this.first.next;
         else {
@@ -69,7 +69,7 @@ public class MyLinked {
 
     // reverse the list "in place"... without creating any new nodes
     public void reverse () {
-        assert checkInvariants();
+        assert(N >= 0);
         if (N > 1) {
             Node prevNode = this.first, currentNode = this.first.next;
             prevNode.next = null;
@@ -87,7 +87,7 @@ public class MyLinked {
 
     // remove 
     public void remove (double item) {
-        assert checkInvariants();
+        assert (N >= 0);
         if (this.N == 0) return;
         int i = 0;
         for (Node trvsNode=this.first; trvsNode != null;) {
