@@ -20,10 +20,12 @@ public class MyLinkedTest {
         b.delete(1);
         assertEquals("3.14159265359", b.toString());
     }
+
     void assertSizeAndElements(MyLinked l, int expected_size, String expected_string) {
         assertEquals(expected_size, l.size());
         assertEquals(expected_string, l.toString());
     }
+    
     @Test
     void testDelete () {
         b.add (1);
