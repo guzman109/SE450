@@ -44,19 +44,50 @@ public class MyLinked {
     // delete the kth element
     public void delete (int k) {
         if (k < 0 || k >= N) throw new IllegalArgumentException ();
-        
+        if (k == 0)
+            this.first = this.first.next;
+        else {
+            Node trvsNode = this.first;
+            for (int i = 1; i < k; trvsNode=trvsNode.next,i++);
+
+            trvsNode.next = trvsNode.next.next;
+        }
+        N--;
+
         assert checkInvariants ();
     }
 
     // reverse the list "in place"... without creating any new nodes
     public void reverse () {
-    
+        if (N > 1) {
+            Node prevNode = this.first, currentNode = this.first.next;
+            prevNode.next = null;
+            for (Node nextNode = currentNode.next; nextNode != null; nextNode = nextNode.next) {
+                currentNode.next = prevNode;
+                prevNode = currentNode;
+                currentNode = nextNode;
+            }
+            currentNode.next = prevNode;
+            this.first = currentNode;
+        }
+
         assert checkInvariants ();
     }
 
     // remove 
     public void remove (double item) {
-        
+        if (this.N == 0) return;
+        int i = 0;
+        for (Node trvsNode=this.first; trvsNode != null;) {
+            if (Double.compare(trvsNode.item, item) == 0) {
+                trvsNode = trvsNode.next;
+                this.delete(i);
+            }
+            else {
+                trvsNode = trvsNode.next;
+                i++;
+            }
+        }
         assert checkInvariants ();
     }
 
@@ -78,10 +109,6 @@ public class MyLinked {
         for (double i = 1; i < 13; i++) {
             b.add (i);
         }
-        Node trvsNode = b.first;
-        for (; trvsNode.next != null; trvsNode = trvsNode.next)
-            System.out.println(trvsNode + " " + trvsNode.next);
-        System.out.println("END" + trvsNode + " " + trvsNode.next);
         print ("bigger list", b);
         b.delete (0);
         print ("deleted at beginning", b);
@@ -147,6 +174,8 @@ public class MyLinked {
 
     public static void main(String[] args) {
         testDelete();
+        testRemove();
+        testReverse();
     }
 }
 
