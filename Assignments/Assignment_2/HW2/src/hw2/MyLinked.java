@@ -15,7 +15,16 @@ public class MyLinked {
         N = 0;
         assert checkInvariants ();
     }
-
+    
+    public String toString() {
+        String l = "";
+        for (Node trvsNode = this.first; trvsNode != null; trvsNode = trvsNode.next) {
+            l += Double.toString(trvsNode.item);
+            if (trvsNode.next != null)
+                l += " ";
+        }
+        return l;
+    }
 
     private boolean checkInvariants() {
         assert((N != 0) || (first == null));
@@ -43,6 +52,7 @@ public class MyLinked {
 
     // delete the kth element
     public void delete (int k) {
+        assert checkInvariants();
         if (k < 0 || k >= N) throw new IllegalArgumentException ();
         if (k == 0)
             this.first = this.first.next;
@@ -59,6 +69,7 @@ public class MyLinked {
 
     // reverse the list "in place"... without creating any new nodes
     public void reverse () {
+        assert checkInvariants();
         if (N > 1) {
             Node prevNode = this.first, currentNode = this.first.next;
             prevNode.next = null;
@@ -76,6 +87,7 @@ public class MyLinked {
 
     // remove 
     public void remove (double item) {
+        assert checkInvariants();
         if (this.N == 0) return;
         int i = 0;
         for (Node trvsNode=this.first; trvsNode != null;) {
@@ -178,36 +190,3 @@ public class MyLinked {
         testReverse();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
