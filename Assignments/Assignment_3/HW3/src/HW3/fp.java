@@ -17,14 +17,12 @@ public static <U,V> List<V> map(Iterable<U> l, Function<U,V> f) {
 	// walk through the U's
 	// use f at every stage f.apply
 	// construct list of V's
-	List<V> list = new LinkedList<V>();
+	List<V> list = new LinkedList<>();
 	for (U x: l) {
 		list.add(f.apply(x));
 	}
-	System.out.println(list);
 	return list;
 }
-
 
 public static <U,V> V foldLeft(V e, Iterable<U>l, BiFunction<V,U,V> f){
 	// walk through the U's [u1,u2, ..,un]
@@ -47,37 +45,35 @@ public static <U,V> V foldLeft(V e, Iterable<U>l, BiFunction<V,U,V> f){
 //          vn-1 = f(un-1,vn)
 // ..
 // return the first v
-public static <U,V> V foldRight(V e, List<U>l, BiFunction<U,V,V> f){
-	int j = l.size() - 1;
-	V v = e;
-	while (j != 0) {
-		int i = 0;
-		for (U u : l) {
-			if (i == j) {
-				v = f.apply(u, v);
-				j--;
-			}
-			i++;
-		}
-	}
+private static <U,V> V foldRight_aux(V v, List<U>l, BiFunction<U,V,V>f, int i) {
+	if (i >= 0)
+		v = foldRight_aux(f.apply(l.get(i), v), l, f, --i);
 	return v;
+}
+public static <U,V> V foldRight(V e, List<U>l, BiFunction<U,V,V> f){
+	return foldRight_aux(e, l, f, l.size()-1);
 }
 
 
 
 public static <U> Iterable<U> filter(Iterable<U> l, Predicate<U> p){
-return null;
+	LinkedList<U> list = new LinkedList<U>();
+	for (U u:l)
+		if (p.test(u))
+			list.addFirst(u);
+return list;
 }
 
 static <U> U minVal(Iterable<U> l, Comparator<U> c){
-	// write using fold.  No other loops or recursion permitted. 
-	return null;
+	// write using fold.  No other loops or recursion permitted.
+	return foldLeft(l.iterator().next(), l, (U u1, U u2) -> {return c.compare(u1, u2) < 0 ? u1 : u2; }  );
 }
 
-static <U extends Comparable<U>> int minPos(Iterable<U> l){
-	// write using fold.  No other loops or recursion permitted. 
-	return 0;
-}
+// static <U extends Comparable<U>> int minPos(Iterable<U> l){
+// 	// write using fold.  No other loops or recursion permitted. 
+// 	l.iterator().next().compareTo(o)
+// 	return foldRight(0, l, (int x, int y)->{});
+// }
 
 	public static void main(String[] args) {
 		// (1) Use map to implement the following behavior (described in Python).  i.e given a List<T> create a List<Integer> of the hashes of the objects.

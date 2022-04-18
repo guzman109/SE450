@@ -1,14 +1,13 @@
 package Test;
 
 import HW3.fp;
-import HW3.fp.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-class fpTest { 
+class fpTest2 { 
 
 	@Test
 	void testMap() {
@@ -24,9 +23,8 @@ class fpTest {
 		Boolean[] s = {false,true,false,true,false};
 		assertArrayEquals(b.toArray(),s);
 		
-		System.out.println(l);
 		List<Integer> u = fp.map(l, (Integer x) -> {return x+1;});
-		Integer[] r = {2,3,4,5,6};
+		Integer[] r = {6,5,4,3,2};
 		assertArrayEquals(u.toArray(),r);
 	}
 	
@@ -63,6 +61,11 @@ class fpTest {
 			s.addLast(new Integer(i).toString());	
 			r = new Integer(i).toString().concat(r);
 		}
+		// Reverse the string
+		StringBuilder r_rev = new StringBuilder(r);
+		r_rev.reverse();
+		r = r_rev.toString();
+
 		assertTrue(r.equals(fp.foldRight("", s, (String x, String y) -> {return x.concat(y);})));
 		
 		LinkedList<Integer> l1 = new LinkedList<>();
@@ -80,6 +83,7 @@ class fpTest {
 		Iterable<Integer> i = fp.filter(l, (Integer x ) -> {return x%2 != 0;}); 
 		  // [1,3,5]
 		int u = 0;
+		System.out.println(i);
 		for (Integer a: i) u++;
 		assertTrue(u==3);
 		
@@ -87,6 +91,7 @@ class fpTest {
 		  // [2,4]
 		int u1 = 0;
 		for (Integer a: j) { u1++; }
+		System.out.println(j);
 		assertTrue(u1==2);
 	}
 
