@@ -76,20 +76,12 @@ static <U> U minVal(Iterable<U> l, Comparator<U> c){
 // }
 
 	public static void main(String[] args) {
-		// (1) Use map to implement the following behavior (described in Python).  i.e given a List<T> create a List<Integer> of the hashes of the objects.
-		// names = ['Mary', 'Isla', 'Sam']
-		// for i in range(len(names)):
-		       // names[i] = hash(names[i])
+
 		
-		// (2) Use foldleft to calculate the sum of a list of integers.
-		// i.e write a method: int sum(List<Integer> l)
+
 		
-		// (3) Use foldRight to concatenate a list of strings i.e write a method
-		// String s (List<String> l)
-		
-		// (4) consider an array of Persons. Use filter to 
-		// print the names of the Persons whose salary is
-		// greater than 100000
+
+	
 		
 		// (5) Use minVal to calculate the minimum of a List of 
 		//       Integers
@@ -104,18 +96,4 @@ static <U> U minVal(Iterable<U> l, Comparator<U> c){
 		// minimum in  a List of  String
 	}
 
-}
-
-class Person{
-	final int salary;
-	final String name;
-	
-	Person(int salary, String name){
-		this.salary = salary;
-		this.name = name;
-	}
-	
-	int getSalary() { return salary; }
-	String name() { return name;}
-	
 }
