@@ -17,6 +17,7 @@ public class fpTest1 {
         test_list.add(new Person(120000, "Mary"));
         test_list.add(new Person (75000,"Isla"));
         test_list.add(new Person(55000, "Sam"));
+        test_list.add(new Person( 1000000, "Carlos")); // Maybe one day :)
 
         return test_list;
     }
@@ -35,7 +36,7 @@ public class fpTest1 {
             // names[i] = hash(names[i])
         List<Integer> result = fp.map(test_list, (Person p)->{return p.name().hashCode();});
         
-        Integer[] expected = {"Mary".hashCode(), "Isla".hashCode(), "Sam".hashCode()};
+        Integer[] expected = {"Mary".hashCode(), "Isla".hashCode(), "Sam".hashCode(), "Carlos".hashCode()};
 
         assertArrayEquals(expected, result.toArray());
     }
@@ -47,7 +48,7 @@ public class fpTest1 {
         // i.e write a method: int sum(List<Integer> l)
         Integer result = fp.foldLeft(0, test_list, (Integer sum, Person p)->{ return p.getSalary() + sum; });
 
-        Integer expected = 120000+75000+55000;
+        Integer expected = 120000+75000+55000+1000000;
 
         assertEquals(expected, result);
     }
@@ -57,7 +58,7 @@ public class fpTest1 {
         // (3) Use foldRight to concatenate a list of strings i.e write a method
         // String s (List<String> l)
         String result = fp.foldRight("", test_list, (Person p, String s)->{ return p.name().concat(s) ;});
-        String expected = "MaryIslaSam";
+        String expected = "MaryIslaSamCarlos";
         assertEquals(expected, result);
     }
 
@@ -69,9 +70,9 @@ public class fpTest1 {
         Iterable<Person> result = fp.filter(test_list, (Person p)-> { return p.getSalary() > 100000; });
         
         
-        String[] names_expected = {"Mary"};
-        Integer[] salaries_expected = {120000};
-        Integer length_expected = 1;
+        String[] names_expected = {"Mary", "Carlos"};
+        Integer[] salaries_expected = {120000, 1000000};
+        Integer length_expected = 2;
 
         LinkedList<String> names_result = new LinkedList<String>();
         LinkedList<Integer> salaries_result = new LinkedList<Integer>();
@@ -108,8 +109,8 @@ public class fpTest1 {
         // (6) Use minVal to calculate the maximum of a List of 
 		//       Integers
         Person most_paid = fp.minVal(test_list, (Person p1, Person p2)->{ return Integer.compare(p1.getSalary(), p2.getSalary())*(-1); });
-        assertEquals("Mary", most_paid.name());
-        assertEquals(120000, most_paid.getSalary());
+        assertEquals("Carlos", most_paid.name());
+        assertEquals(1000000, most_paid.getSalary());
 
         LinkedList<Integer> int_list = new LinkedList<Integer>();
         
@@ -133,7 +134,7 @@ public class fpTest1 {
 		// (8)  Use minPos to calculate the position of the
 		// minimum in  a List of  String
         int min_pos_Str = fp.minPos( fp.map(test_list, (Person p)->{ return p.name(); }) );
-        assertTrue(1==min_pos_Str);
+        assertTrue(3==min_pos_Str);
 
         LinkedList<Integer> int_list = new LinkedList<Integer>();
         int_list.add(0);

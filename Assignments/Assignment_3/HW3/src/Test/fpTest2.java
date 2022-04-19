@@ -83,7 +83,6 @@ class fpTest2 {
 		Iterable<Integer> i = fp.filter(l, (Integer x ) -> {return x%2 != 0;}); 
 		  // [1,3,5]
 		int u = 0;
-		System.out.println(i);
 		for (Integer a: i) u++;
 		assertTrue(u==3);
 		
@@ -91,7 +90,6 @@ class fpTest2 {
 		  // [2,4]
 		int u1 = 0;
 		for (Integer a: j) { u1++; }
-		System.out.println(j);
 		assertTrue(u1==2);
 	}
 
