@@ -13,8 +13,8 @@ final class VideoObj implements Video {
    * Initialize all object attributes.
    */
   VideoObj(String title, int year, String director) {
-    _title = title;
-    _director = director;
+    _title = title.strip();
+    _director = director.strip();
     _year = year;
   }
 
@@ -67,7 +67,6 @@ final class VideoObj implements Video {
 
   public String toString() {
     // TODO
-    return String.format("%s (%d) : %s", this._title, 
-      Integer.toString(this._year), this._director);
+    return String.format("%s (%d) : %s", this._title, this._year, this._director);
   }
 }

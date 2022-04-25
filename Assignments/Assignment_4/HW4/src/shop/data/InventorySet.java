@@ -46,7 +46,29 @@ final class InventorySet implements Inventory {
     // TODO
     return null;
   }
+  /**
+  * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, 
+      or if attempting to remove copies that are checked out.
+  */
+  private void checkAddNumOwnedPreConditions(Video video, int change) {
+    if (video == null)
+      throw new IllegalArgumentException("Video is null");
+    if (change == 0)
+      throw new IllegalArgumentException("Change is zero.");
+    
+    if (this._data.containsKey(video)) {
+      Record r = this._data.get(video);
+      if (r.numOwned() + change < 0)
+        throw new IllegalArgumentException("Attempting to remove more copies than are owned");
 
+      if ( (r.numOwned() - r.numOut() + change) < 0 )
+        throw new IllegalArgumentException("Attempting to remove copies that are check out");
+
+    }
+
+
+
+  }
   /**
    * Add or remove copies of a video from the inventory.
    * If a video record is not already present (and change is
@@ -60,7 +82,20 @@ final class InventorySet implements Inventory {
    * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, or if attempting to remove copies that are checked out.
    */
   void addNumOwned(Video video, int change) {
+
     // TODO
+    checkAddNumOwnedPreConditions(video, change);
+    System.out.println(this._data.containsKey(video) + "\t" + change);
+
+    if (!this._data.containsKey(video) && 0 < change)
+      this._data.put(video, new RecordObj(video, change, 0, 0));
+    else {
+      RecordObj r = (RecordObj) this._data.get(video);
+      r.numOwned += change;
+      this._data.put(video, r);
+      if (r.numOwned()  < 1)
+        this._data.remove(video);
+    }
   }
 
   /**
@@ -71,6 +106,13 @@ final class InventorySet implements Inventory {
    */
   void checkOut(Video video) {
     // TODO
+    if (!this._data.containsKey(video) || this._data.get(video).numOut() == this._data.get(video).numOwned())
+    throw new IllegalArgumentException("Video has no record or number of copies to check out.");
+  
+    RecordObj r = (RecordObj) this._data.get(video);
+    r.numOut++;
+    r.numRentals++;
+    this._data.put(video, r);
   }
   
   /**
@@ -81,6 +123,11 @@ final class InventorySet implements Inventory {
    */
   void checkIn(Video video) {
     // TODO
+    if (!this._data.containsKey(video) || this._data.get(video).numOut() < 1)
+    throw new IllegalArgumentException("Video has no record or numOut is not positive.");
+    RecordObj r = (RecordObj) this._data.get(video);
+    r.numOut--;
+    this._data.put(video,r);
   }
   
   /**
@@ -88,6 +135,7 @@ final class InventorySet implements Inventory {
    */
   void clear() {
     // TODO
+    this._data.clear();
   }
 
   public String toString() {
