@@ -43,27 +43,35 @@ final class InventorySet implements Inventory {
   }
 
   public Iterator<Record> iterator(Comparator<Record> comparator) {
-    // TODO
-    return null;
+    // TODO(
+    List<Record> values = new ArrayList<Record> (this._data.values());
+    Collections.sort(values, comparator);
+    return Collections.unmodifiableList(values).iterator();
   }
+
+
+
   /**
   * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, 
       or if attempting to remove copies that are checked out.
   */
   private void checkAddNumOwnedPreConditions(Video video, int change) {
     if (video == null)
-      throw new IllegalArgumentException("Video is null");
+      throw new IllegalArgumentException("Video is null.");
     if (change == 0)
       throw new IllegalArgumentException("Change is zero.");
     
     if (this._data.containsKey(video)) {
       Record r = this._data.get(video);
       if (r.numOwned() + change < 0)
-        throw new IllegalArgumentException("Attempting to remove more copies than are owned");
+        throw new IllegalArgumentException("Attempting to remove more copies than are owned.");
 
       if ( (r.numOwned() - r.numOut() + change) < 0 )
-        throw new IllegalArgumentException("Attempting to remove copies that are check out");
-
+        throw new IllegalArgumentException("Attempting to remove copies that are check out.");
+    }
+    else {
+      if (change < 0)
+        throw new IllegalArgumentException("Attempting to remove copies that don't exist.");
     }
 
 
@@ -85,7 +93,6 @@ final class InventorySet implements Inventory {
 
     // TODO
     checkAddNumOwnedPreConditions(video, change);
-    System.out.println(this._data.containsKey(video) + "\t" + change);
 
     if (!this._data.containsKey(video) && 0 < change)
       this._data.put(video, new RecordObj(video, change, 0, 0));
@@ -93,8 +100,9 @@ final class InventorySet implements Inventory {
       RecordObj r = (RecordObj) this._data.get(video);
       r.numOwned += change;
       this._data.put(video, r);
-      if (r.numOwned()  < 1)
+      if (r.numOwned()  <= 0)
         this._data.remove(video);
+
     }
   }
 

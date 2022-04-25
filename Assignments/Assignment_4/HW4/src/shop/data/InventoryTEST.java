@@ -51,7 +51,6 @@ public class InventoryTEST {
     try { s.addNumOwned(v1,-2); fail(); } catch ( IllegalArgumentException e ) {}
 
           s.addNumOwned(v1,-1); assertTrue( s.get(v1).numOut() == 1 && s.get(v1).numRentals() == 1 );
-    System.out.println(s.toString());
           s.addNumOwned(v1, 1); assertTrue( s.get(v1).numOut() == 1 && s.get(v1).numRentals() == 1 );
           s.checkOut(v1);       assertTrue( s.get(v1).numOut() == 2 && s.get(v1).numRentals() == 2 );
     try { s.checkOut(v1);       fail(); } catch ( IllegalArgumentException e ) {}
@@ -97,31 +96,31 @@ public class InventoryTEST {
     }
     assertTrue(expected.isEmpty());
   }
-  // @Test
-  // public void testIterator2() {
-  //   List<Video> expected = new ArrayList<Video>();
-  //   InventorySet inv = new InventorySet();
-  //   Video v1 = new VideoObj("XX", 2004, "XX");
-  //   Video v2 = new VideoObj("XY", 2000, "XY");
-  //   expected.add(v2);
-  //   expected.add(v1);
-  //   inv.addNumOwned(v1,10);
-  //   inv.addNumOwned(v2,20);
+  @Test
+  public void testIterator2() {
+    List<Video> expected = new ArrayList<Video>();
+    InventorySet inv = new InventorySet();
+    Video v1 = new VideoObj("XX", 2004, "XX");
+    Video v2 = new VideoObj("XY", 2000, "XY");
+    expected.add(v2);
+    expected.add(v1);
+    inv.addNumOwned(v1,10);
+    inv.addNumOwned(v2,20);
 
-  //   Comparator<Record> c = new Comparator<Record>() {
-  //       public int compare(Record r1, Record r2) {
-  //         return r1.video().year() - r2.video().year();
-  //       }
-  //     };
-  //   Iterator<Record> i = inv.iterator(c);
-  //   try { i.remove(); fail(); }
-  //   catch (UnsupportedOperationException e) { }
-  //   Iterator j = expected.iterator();
-  //   while (i.hasNext()) {
-  //     assertSame(j.next(), i.next().video());
-  //     j.remove();
-  //   }
-  //   assertTrue(expected.isEmpty());
-  // }
+    Comparator<Record> c = new Comparator<Record>() {
+        public int compare(Record r1, Record r2) {
+          return r1.video().year() - r2.video().year();
+        }
+      };
+    Iterator<Record> i = inv.iterator(c);
+    try { i.remove(); fail(); }
+    catch (UnsupportedOperationException e) { }
+    Iterator j = expected.iterator();
+    while (i.hasNext()) {
+      assertSame(j.next(), i.next().video());
+      j.remove();
+    }
+    assertTrue(expected.isEmpty());
+  }
 
 }
