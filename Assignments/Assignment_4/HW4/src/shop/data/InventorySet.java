@@ -28,20 +28,38 @@ final class InventorySet implements Inventory {
     this._data = new HashMap<Video,Record>();
   }
 
+  
+  /** Returns the number of videos in inventory.
+   * @return int Number of videos in inventory.
+   */
   public int size() {
     // TODO
     return this._data.size();
   }
 
+  
+  /** Returns the record for video v
+   * @param v Video to find the record of 
+   * @return Record record for Video v
+   */
   public Record get(Video v) {
     // TODO
     return this._data.get(v);
   }
 
+  
+  /** Returns an iterator of the records on file.
+   * @return Iterator<Record> itertator of the records.
+   */
   public Iterator<Record> iterator() {
     return Collections.unmodifiableCollection(this._data.values()).iterator();
   }
 
+  
+  /** Returns a sorted iterator of the records on file
+   * @param comparator
+   * @return Iterator<Record> sorted iterator of the records
+   */
   public Iterator<Record> iterator(Comparator<Record> comparator) {
     // TODO(
     List<Record> values = new ArrayList<Record> (this._data.values());
@@ -51,9 +69,11 @@ final class InventorySet implements Inventory {
 
 
 
-  /**
+  /** Method to check the invariants for checking out a video.
+  * @param video the video to be added.
+  * @param change the number of copies to add (or remove if negative).
   * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, 
-      or if attempting to remove copies that are checked out.
+  *    or if attempting to remove copies that are checked out.
   */
   private void checkAddNumOwnedPreConditions(Video video, int change) {
     if (video == null)
@@ -146,6 +166,10 @@ final class InventorySet implements Inventory {
     this._data.clear();
   }
 
+  
+  /** Returns a string representation of the iventory.
+   * @return String string representation
+   */
   public String toString() {
     StringBuilder buffer = new StringBuilder();
     buffer.append("Database:\n");

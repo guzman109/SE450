@@ -37,7 +37,7 @@ public class Data {
    * </ul>
    * @param video the video to be added.
    * @param change the number of copies to add (or remove if negative).
-   * @throws IllegalArgumentException if <code>inventory<code> not created by a call to <code>newInventory</code>.
+   * @throws IllegalArgumentException if <code>inventory</code> not created by a call to <code>newInventory</code>.
    */
   static public Command newAddCmd(Inventory inventory, Video video, int change) {
     if (!(inventory instanceof InventorySet))

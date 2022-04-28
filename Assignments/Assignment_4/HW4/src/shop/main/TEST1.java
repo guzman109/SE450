@@ -35,7 +35,6 @@ public class TEST1{
     assertEquals(1, _inventory.size());
     assertTrue(Data.newAddCmd(_inventory, v1, 5).run());
     assertEquals(1, _inventory.size());
-    // System.out.println(_inventory.get(v1));
     expect(v1,"Title1 (2000) : Director1 [10,0,0]");
     
     Video v2 = Data.newVideo("Title2", 2001, "Director2");

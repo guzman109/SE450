@@ -24,21 +24,39 @@ final class VideoObj implements Video {
     _year = year;
   }
 
+  
+  /** 
+   * Returns the director for the movie
+   * @return String director
+   */ 
   public String director() {
     // TODO
     return this._director;
   }
 
+  
+  /** Returns the title of the movie
+   * @return String title
+   */
   public String title() {
     // TODO
     return this._title;
   }
 
+  
+  /** Returns the year the movie wasmade
+   * @return int year
+   */
   public int year() {
     // TODO
     return this._year;
   }
 
+  
+  /** Compares this string to the specified object. The result is true if and only if the argument is not null and is a String object that represents the same sequence of characters as this object.
+   * @param thatObject The object to compare this String against
+   * @return boolean true if the given object represents a String equivalent to this string, false otherwise
+   */
   public boolean equals(Object thatObject) {
     // TODO
     if (!(thatObject instanceof VideoObj))
@@ -49,6 +67,10 @@ final class VideoObj implements Video {
       this._director.equals(tempObj.director());
   }
 
+  
+  /** Returns a hash code for this VideoObj.
+   * @return int a hash code value for this object.
+   */
   public int hashCode() {
     // TODO
     int result = 17;
@@ -63,6 +85,11 @@ final class VideoObj implements Video {
     return result;
   }
 
+  
+  /** Compares two VideoObjs
+   * @param that the VideoObj to be compared.
+   * @return int the value 0 if the argument VideoObj is equal to this VidoObj; a value less than 0 if this VideoObj less than the string argument; and a value greater than 0 if this VidoObj is greater than the VideoObj argument.
+   */
   public int compareTo(Video that) {
     // TODO
     Integer year = this._year;
@@ -71,6 +98,10 @@ final class VideoObj implements Video {
         this._director.compareTo(that.director());
   }
 
+  
+  /** String representation of the VideoObj
+   * @return String string representation
+   */
   public String toString() {
     // TODO
     return String.format("%s (%d) : %s", this._title, this._year, this._director);

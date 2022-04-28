@@ -8,8 +8,8 @@ import java.lang.Comparable;
  * <p>Comprises a triple: title, year, director.</p>
  *
  * @see Data
- * @objecttype Immutable Data Class
- * @objectinvariant
+ * objecttype Immutable Data Class
+ * objectinvariant
  *   <ul>
  *     <li>title is non-null, no leading or final spaces, not empty string</li>
  *     <li>year is greater than 1800, less than 5000</li>
