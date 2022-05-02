@@ -8,7 +8,10 @@ final class CommandHistoryObj implements CommandHistory {
       public boolean run () {
         boolean result = !_undoStack.empty();
         if (result) {
-          // TODO
+          // TODO  
+          UndoableCommand cmd = _undoStack.pop();     
+          cmd.undo();
+          _redoStack.push(cmd);   
         }
         return result;
       }
@@ -18,6 +21,10 @@ final class CommandHistoryObj implements CommandHistory {
         boolean result = !_redoStack.empty();
         if (result) {
           // TODO
+          UndoableCommand cmd = _redoStack.pop();
+          cmd.redo();
+          _undoStack.push(cmd);
+
         }
         return result;
       }
@@ -25,6 +32,7 @@ final class CommandHistoryObj implements CommandHistory {
 
   public void add(UndoableCommand cmd) {
     // TODO
+    _undoStack.push(cmd);
   }
   
   public RerunnableCommand getUndo() {
