@@ -1,10 +1,11 @@
 package shop.data;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
-public class VideoTEST {
-  @Test
-  public void testMe() {
+public class VideoTEST extends TestCase {
+  public VideoTEST(String name) {
+    super(name);
   }
+  // TODO: complete the tests
 }

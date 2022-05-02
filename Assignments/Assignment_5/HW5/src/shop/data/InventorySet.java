@@ -8,95 +8,61 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import shop.command.Command;
+import shop.command.UndoableCommand;
+import shop.command.CommandHistory;
+import shop.command.CommandHistoryFactory;
 
 /**
  * Implementation of Inventory interface.
  * @see Data
  */
 final class InventorySet implements Inventory {
-  // Chose to use Map of Record, rather than RecordObj, because of
-  // Java's broken generic types.  The story is too sad to retell, but
-  // involves the fact that Iterable<? extends Record> is not a valid
-  // type, and that Iterator<RecordObj> is not a subtype of
-  // Iterator<Record>.
-  //
-  // Seems like the best approach for Java generics is to use the
-  // external representation internally and downcast when necessary.
-  private final Map<Video,Record> _data;
+  private Map<Video,Record> _data;
+  private final CommandHistory _history;
 
   InventorySet() {
-    this._data = new HashMap<Video,Record>();
+    // TODO
+    _data = null;
+    _history = null;
+     
   }
 
-  
-  /** Returns the number of videos in inventory.
-   * @return int Number of videos in inventory.
+  /**
+   * If <code>record</code> is null, then delete record for <code>video</code>;
+   * otherwise replace record for <code>video</code>.
    */
+  void replaceEntry(Video video, Record record) {
+    _data.remove(video);
+    if (record != null)
+      _data.put(video,((RecordObj)record).copy());
+  }
+
+  /**
+   * Overwrite the map.
+   */
+  void replaceMap(Map<Video,Record> data) {
+    _data = data;
+  }
+
   public int size() {
     // TODO
-    return this._data.size();
+    return 0;
   }
 
-  
-  /** Returns the record for video v
-   * @param v Video to find the record of 
-   * @return Record record for Video v
-   */
   public Record get(Video v) {
     // TODO
-    return this._data.get(v);
+    return null;
   }
 
-  
-  /** Returns an iterator of the records on file.
-   * @return Iterator<Record> itertator of the records.
-   */
   public Iterator<Record> iterator() {
-    return Collections.unmodifiableCollection(this._data.values()).iterator();
+    return Collections.unmodifiableCollection(_data.values()).iterator();
   }
 
-  
-  /** Returns a sorted iterator of the records on file
-   * @param comparator
-   * @return Iterator<Record> sorted iterator of the records
-   */
   public Iterator<Record> iterator(Comparator<Record> comparator) {
-    // TODO(
-    List<Record> values = new ArrayList<Record> (this._data.values());
-    Collections.sort(values, comparator);
-    return Collections.unmodifiableList(values).iterator();
+    // TODO
+    return null;
   }
 
-
-
-  /** Method to check the invariants for checking out a video.
-  * @param video the video to be added.
-  * @param change the number of copies to add (or remove if negative).
-  * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, 
-  *    or if attempting to remove copies that are checked out.
-  */
-  private void checkAddNumOwnedPreConditions(Video video, int change) {
-    if (video == null)
-      throw new IllegalArgumentException("Video is null.");
-    if (change == 0)
-      throw new IllegalArgumentException("Change is zero.");
-    
-    if (this._data.containsKey(video)) {
-      Record r = this._data.get(video);
-      if (r.numOwned() + change < 0)
-        throw new IllegalArgumentException("Attempting to remove more copies than are owned.");
-
-      if ( (r.numOwned() - r.numOut() + change) < 0 )
-        throw new IllegalArgumentException("Attempting to remove copies that are check out.");
-    }
-    else {
-      if (change < 0)
-        throw new IllegalArgumentException("Attempting to remove copies that don't exist.");
-    }
-
-
-
-  }
   /**
    * Add or remove copies of a video from the inventory.
    * If a video record is not already present (and change is
@@ -107,75 +73,76 @@ final class InventorySet implements Inventory {
    * the record is removed from the inventory.
    * @param video the video to be added.
    * @param change the number of copies to add (or remove if negative).
-   * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, or if attempting to remove copies that are checked out.
+   * @return A copy of the previous record for this video (if any)
+   * @throws IllegalArgumentException if video null, change is zero, if attempting to remove more copies than are owned, or if attempting to remove copies that are checked out. 
    */
-  void addNumOwned(Video video, int change) {
-
-    // TODO
-    checkAddNumOwnedPreConditions(video, change);
-
-    if (!this._data.containsKey(video) && 0 < change)
-      this._data.put(video, new RecordObj(video, change, 0, 0));
-    else {
-      RecordObj r = (RecordObj) this._data.get(video);
-      r.numOwned += change;
-      this._data.put(video, r);
-      if (r.numOwned()  <= 0)
-        this._data.remove(video);
-
+  Record addNumOwned(Video video, int change) {
+    if (video == null || change == 0)
+      throw new IllegalArgumentException();
+    
+    RecordObj r = (RecordObj) _data.get(video);
+    if (r == null && change < 1) {
+      throw new IllegalArgumentException();
+    } else if (r == null) {
+      _data.put(video, new RecordObj(video, change, 0, 0));
+    } else if (r.numOwned+change < r.numOut) {
+      throw new IllegalArgumentException();
+    } else if (r.numOwned+change < 1) {
+      _data.remove(video);
+    } else {
+      _data.put(video, new RecordObj(video, r.numOwned + change, r.numOut, r.numRentals));
     }
+    return r;
   }
 
   /**
    * Check out a video.
    * @param video the video to be checked out.
+   * @return A copy of the previous record for this video
    * @throws IllegalArgumentException if video has no record or numOut
    * equals numOwned.
    */
-  void checkOut(Video video) {
+  Record checkOut(Video video) {
     // TODO
-    if (!this._data.containsKey(video) || this._data.get(video).numOut() == this._data.get(video).numOwned())
-    throw new IllegalArgumentException("Video has no record or number of copies to check out.");
-  
-    RecordObj r = (RecordObj) this._data.get(video);
-    r.numOut++;
-    r.numRentals++;
-    this._data.put(video, r);
+    return null;
   }
   
   /**
    * Check in a video.
    * @param video the video to be checked in.
+   * @return A copy of the previous record for this video
    * @throws IllegalArgumentException if video has no record or numOut
    * non-positive.
    */
-  void checkIn(Video video) {
+  Record checkIn(Video video) {
     // TODO
-    if (!this._data.containsKey(video) || this._data.get(video).numOut() < 1)
-    throw new IllegalArgumentException("Video has no record or numOut is not positive.");
-    RecordObj r = (RecordObj) this._data.get(video);
-    r.numOut--;
-    this._data.put(video,r);
+    return null;
   }
   
   /**
    * Remove all records from the inventory.
+   * @return A copy of the previous inventory as a Map
    */
-  void clear() {
+  Map<Video,Record> clear() {
     // TODO
-    this._data.clear();
+    return null;
   }
 
-  
-  /** Returns a string representation of the iventory.
-   * @return String string representation
+  /**
+   * Return a reference to the history.
    */
+  CommandHistory getHistory() {
+    // TODO
+    return null;
+  }
+  
   public String toString() {
     StringBuilder buffer = new StringBuilder();
     buffer.append("Database:\n");
-    for (Record r : _data.values()) {
+    Iterator i = _data.values().iterator();
+    while (i.hasNext()) {
       buffer.append("  ");
-      buffer.append(r);
+      buffer.append(i.next());
       buffer.append("\n");
     }
     return buffer.toString();
@@ -185,7 +152,7 @@ final class InventorySet implements Inventory {
   /**
    * Implementation of Record interface.
    *
-   * <p>This is a utility class for Inventory.  Fields are mutable and
+   * <p>This is a utility class for Inventory.  Fields are immutable and
    * package-private.</p>
    *
    * <p><b>Class Invariant:</b> No two instances may reference the same Video.</p>
@@ -193,16 +160,19 @@ final class InventorySet implements Inventory {
    * @see Record
    */
   private static final class RecordObj implements Record {
-    Video video; // the video
-    int numOwned;   // copies owned
-    int numOut;     // copies currently rented
-    int numRentals; // total times video has been rented
+    final Video video; // the video
+    final int numOwned;   // copies owned
+    final int numOut;     // copies currently rented
+    final int numRentals; // total times video has been rented
     
     RecordObj(Video video, int numOwned, int numOut, int numRentals) {
       this.video = video;
       this.numOwned = numOwned;
       this.numOut = numOut;
       this.numRentals = numRentals;
+    }
+    RecordObj copy() {
+      return new RecordObj(video, numOwned, numOut, numRentals);
     }
     public Video video() {
       return video;
@@ -215,6 +185,12 @@ final class InventorySet implements Inventory {
     }
     public int numRentals() {
       return numRentals;
+    }
+    public boolean equals(Object thatObject) {
+      return video.equals(((Record)thatObject).video());
+    }
+    public int hashCode() {
+      return video.hashCode();
     }
     public String toString() {
       StringBuilder buffer = new StringBuilder();

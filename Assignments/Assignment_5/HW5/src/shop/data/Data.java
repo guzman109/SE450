@@ -1,6 +1,7 @@
 package shop.data;
 
-import shop.command.Command;
+import shop.command.RerunnableCommand;
+import shop.command.UndoableCommand;
 
 /**
  * A static class for accessing data objects.
@@ -21,7 +22,7 @@ public class Data {
    */
   static public Video newVideo(String title, int year, String director) {
     // TODO
-    return new VideoObj(title, year, director);
+    return null;
   }
 
   /**
@@ -37,9 +38,9 @@ public class Data {
    * </ul>
    * @param video the video to be added.
    * @param change the number of copies to add (or remove if negative).
-   * @throws IllegalArgumentException if <code>inventory</code> not created by a call to <code>newInventory</code>.
+   * @throws IllegalArgumentException if <code>inventory<code> not created by a call to <code>newInventory</code>.
    */
-  static public Command newAddCmd(Inventory inventory, Video video, int change) {
+  static public UndoableCommand newAddCmd(Inventory inventory, Video video, int change) {
     if (!(inventory instanceof InventorySet))
       throw new IllegalArgumentException();
     return new CmdAdd((InventorySet) inventory, video, change);
@@ -49,30 +50,43 @@ public class Data {
    * Returns a command to check out a video.
    * @param video the video to be checked out.
    */
-  static public Command newOutCmd(Inventory inventory, Video video) {
+  static public UndoableCommand newOutCmd(Inventory inventory, Video video) {
     // TODO
-    if (!(inventory instanceof InventorySet))
-      throw new IllegalArgumentException();
-    return new CmdOut((InventorySet) inventory, video);
+    return null;
   }
   
   /**
    * Returns a command to check in a video.
    * @param video the video to be checked in.
    */
-  static public Command newInCmd(Inventory inventory, Video video) {
+  static public UndoableCommand newInCmd(Inventory inventory, Video video) {
     // TODO
-    if (!(inventory instanceof InventorySet))
-      throw new IllegalArgumentException();
-    return new CmdIn((InventorySet) inventory, video);
+    return null;
   }
   
   /**
    * Returns a command to remove all records from the inventory.
    */
-  static public Command newClearCmd(Inventory inventory) {
+  static public UndoableCommand newClearCmd(Inventory inventory) {
     if (!(inventory instanceof InventorySet))
       throw new IllegalArgumentException();
     return new CmdClear((InventorySet) inventory);
+  }
+
+  /**
+   * Returns a command to undo that will undo the last successful UndoableCommand. 
+   */
+  static public RerunnableCommand newUndoCmd(Inventory inventory) {
+    if (!(inventory instanceof InventorySet))
+      throw new IllegalArgumentException();
+    return ((InventorySet)inventory).getHistory().getUndo();
+  }
+
+  /**
+   * Returns a command to redo that last successfully undone command. 
+   */
+  static public RerunnableCommand newRedoCmd(Inventory inventory) {
+    // TODO
+    return null;
   }
 }  
