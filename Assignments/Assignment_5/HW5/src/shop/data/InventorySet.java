@@ -45,12 +45,12 @@ final class InventorySet implements Inventory {
 
   public int size() {
     // TODO
-    return 0;
+    return this._data.size();
   }
 
   public Record get(Video v) {
     // TODO
-    return null;
+    return this._data.get(v);
   }
 
   public Iterator<Record> iterator() {
@@ -59,7 +59,9 @@ final class InventorySet implements Inventory {
 
   public Iterator<Record> iterator(Comparator<Record> comparator) {
     // TODO
-    return null;
+    List<Record> values = new ArrayList<Record> (this._data.values());
+    Collections.sort(values, comparator);
+    return Collections.unmodifiableList(values).iterator();
   }
 
   /**
@@ -91,6 +93,7 @@ final class InventorySet implements Inventory {
     } else {
       _data.put(video, new RecordObj(video, r.numOwned + change, r.numOut, r.numRentals));
     }
+
     return r;
   }
 
@@ -103,7 +106,12 @@ final class InventorySet implements Inventory {
    */
   Record checkOut(Video video) {
     // TODO
-    return null;
+    if (!this._data.containsKey(video) || this._data.get(video).numOut() == this._data.get(video).numOwned())
+    throw new IllegalArgumentException("Video has no record or number of copies to check out.");
+  
+    RecordObj r = (RecordObj) this._data.get(video);
+    this._data.put( video, new RecordObj( r.video(), r.numOwned(), r.numOut()+1, r.numRentals()+1 ) );
+    return r;
   }
   
   /**
@@ -115,7 +123,12 @@ final class InventorySet implements Inventory {
    */
   Record checkIn(Video video) {
     // TODO
-    return null;
+    if (!this._data.containsKey(video) || this._data.get(video).numOut() < 1)
+    throw new IllegalArgumentException("Video has no record or numOut is not positive.");
+
+    RecordObj r = (RecordObj) this._data.get(video);
+    this._data.put( video, new RecordObj( r.video(), r.numOwned(), r.numOut()-1, r.numRentals() ) );
+    return r;
   }
   
   /**
@@ -124,7 +137,9 @@ final class InventorySet implements Inventory {
    */
   Map<Video,Record> clear() {
     // TODO
-    return null;
+    Map<Video, Record> data = this._data;
+    this._data = new HashMap<Video, Record>();
+    return data;
   }
 
   /**
@@ -132,7 +147,7 @@ final class InventorySet implements Inventory {
    */
   CommandHistory getHistory() {
     // TODO
-    return null;
+    return this._history;
   }
   
   public String toString() {

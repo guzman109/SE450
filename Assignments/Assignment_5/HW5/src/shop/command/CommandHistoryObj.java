@@ -11,7 +11,7 @@ final class CommandHistoryObj implements CommandHistory {
         if (result) {
           // TODO  
           UndoableCommand cmd = _undoStack.pop();     
-          _undoCmd = cmd;
+          cmd.undo();
           _redoStack.push(cmd);   
         }
         return result;

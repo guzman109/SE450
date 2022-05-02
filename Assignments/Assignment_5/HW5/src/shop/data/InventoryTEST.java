@@ -16,7 +16,7 @@ public class InventoryTEST {
   final VideoObj v1 = new VideoObj( "A", 2000, "B" );
   final VideoObj v1copy = new VideoObj( "A", 2000, "B" );
   final VideoObj v2 = new VideoObj( "B", 2000, "B" );
-  
+  @Test
   public void testSize() {
                                  assertEquals( 0, s.size() );
           s.addNumOwned(v1,  1); assertEquals( 1, s.size() );
@@ -26,7 +26,7 @@ public class InventoryTEST {
           s.addNumOwned(v1, -3); assertEquals( 0, s.size() );
     try { s.addNumOwned(v1, -3); fail(); } catch ( IllegalArgumentException e ) {}
   }
-
+  @Test
   public void testAddNumOwned() {
                                     assertEquals( null, s.get(v1) );
           s.addNumOwned(v1, 1);     assertEquals( v1, s.get(v1).video() );
@@ -38,7 +38,7 @@ public class InventoryTEST {
           s.addNumOwned(v1, -3);    assertEquals( null, s.get(v1) );
     try { s.addNumOwned(null, 1);   fail(); } catch ( IllegalArgumentException e ) {}
   }
-
+  @Test
   public void testCheckOutCheckIn() {
     try { s.checkOut(null);     fail(); } catch ( IllegalArgumentException e ) {}
     try { s.checkIn(null);      fail(); } catch ( IllegalArgumentException e ) {}
@@ -56,14 +56,14 @@ public class InventoryTEST {
     try { s.checkOut(v2);       fail(); } catch ( IllegalArgumentException e ) {}
           s.checkOut(v1);       assertTrue( s.get(v1).numOut() == 1 && s.get(v1).numRentals() == 3 );
   }
-
+  @Test
   public void testClear() {
           s.addNumOwned(v1, 2); assertEquals( 1, s.size() );
           s.addNumOwned(v2, 2); assertEquals( 2, s.size() );
           s.clear();            assertEquals( 0, s.size() );
     try { s.checkOut(v2);       fail(); } catch ( IllegalArgumentException e ) {}
   }
-
+  @Test
   public void testGet() {
     s.addNumOwned(v1, 1);
     Record r1 = s.get(v1);
@@ -71,7 +71,7 @@ public class InventoryTEST {
     assertTrue( r1.equals(r2) );
     assertTrue( r1 == r2 );
   }
-
+  @Test
   public void testIterator1() {
     Set<Video> expected = new HashSet<Video>();
     InventorySet inv = new InventorySet();
@@ -92,6 +92,7 @@ public class InventoryTEST {
     }
     assertTrue(expected.isEmpty());
   }
+  @Test
   public void testIterator2() {
     List<Video> expected = new ArrayList<Video>();
     InventorySet inv = new InventorySet();
