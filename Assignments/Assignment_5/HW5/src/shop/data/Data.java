@@ -22,7 +22,7 @@ public class Data {
    */
   static public Video newVideo(String title, int year, String director) {
     // TODO
-    return null;
+    return new VideoObj(title, year, director);
   }
 
   /**
@@ -52,7 +52,9 @@ public class Data {
    */
   static public UndoableCommand newOutCmd(Inventory inventory, Video video) {
     // TODO
-    return null;
+    if ( !(inventory instanceof InventorySet) )
+      throw new IllegalArgumentException();
+    return new CmdOut((InventorySet) inventory, video);
   }
   
   /**
@@ -61,7 +63,9 @@ public class Data {
    */
   static public UndoableCommand newInCmd(Inventory inventory, Video video) {
     // TODO
-    return null;
+    if ( !(inventory instanceof InventorySet) )
+      throw new IllegalArgumentException();
+    return new CmdIn((InventorySet) inventory, video);
   }
   
   /**
@@ -87,6 +91,8 @@ public class Data {
    */
   static public RerunnableCommand newRedoCmd(Inventory inventory) {
     // TODO
-    return null;
+    if (!(inventory instanceof InventorySet))
+      throw new IllegalArgumentException();
+    return ((InventorySet)inventory).getHistory().getRedo();
   }
 }  

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class CommandHistoryTEST {
+
   @Test
   public void testEmptyExceptions() {
     CommandHistoryObj h = new CommandHistoryObj();
@@ -12,7 +13,7 @@ public class CommandHistoryTEST {
     assertFalse(h.getUndo().run());
     assertFalse(h.getRedo().run());
   }
-  @Test
+
   private void checkStacks(CommandHistoryObj h, UndoableCommand topUndo, UndoableCommand topRedo) {
     assertSame(topUndo, h.topUndoCommand());
     assertSame(topRedo, h.topRedoCommand());
