@@ -4,13 +4,14 @@ import java.util.Stack;
 final class CommandHistoryObj implements CommandHistory {
   Stack<UndoableCommand> _undoStack = new Stack<UndoableCommand>();
   Stack<UndoableCommand> _redoStack = new Stack<UndoableCommand>();
+  
   RerunnableCommand _undoCmd = new RerunnableCommand () {
       public boolean run () {
         boolean result = !_undoStack.empty();
         if (result) {
           // TODO  
           UndoableCommand cmd = _undoStack.pop();     
-          cmd.undo();
+          _undoCmd = cmd;
           _redoStack.push(cmd);   
         }
         return result;
@@ -33,6 +34,7 @@ final class CommandHistoryObj implements CommandHistory {
   public void add(UndoableCommand cmd) {
     // TODO
     _undoStack.push(cmd);
+    _redoStack.clear();
   }
   
   public RerunnableCommand getUndo() {

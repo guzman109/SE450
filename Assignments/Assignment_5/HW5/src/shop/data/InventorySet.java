@@ -22,9 +22,8 @@ final class InventorySet implements Inventory {
 
   InventorySet() {
     // TODO
-    _data = null;
-    _history = null;
-     
+    this._data = new HashMap<Video,Record>();
+    this._history = CommandHistoryFactory.newCommandHistory();
   }
 
   /**
