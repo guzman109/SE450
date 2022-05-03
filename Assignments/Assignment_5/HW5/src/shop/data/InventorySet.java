@@ -43,20 +43,43 @@ final class InventorySet implements Inventory {
     _data = data;
   }
 
+  /**
+   * Return the number of elements in the list.
+   * 
+   * @return The size of the data
+   */
   public int size() {
     // TODO
     return this._data.size();
   }
 
+  /**
+   * Return the record for the given video.
+   * 
+   * @param v the video to be looked up
+   * @return A record object
+   */
   public Record get(Video v) {
     // TODO
     return this._data.get(v);
   }
 
+  /**
+   * Return an iterator over the records in the database.
+   * 
+   * @return An iterator over the values in the map.
+   */
   public Iterator<Record> iterator() {
     return Collections.unmodifiableCollection(_data.values()).iterator();
   }
 
+  /**
+   * It creates a list of all the values in the map, sorts the list using the comparator, and then
+   * returns an iterator over the sorted list
+   * 
+   * @param comparator a Comparator<Record> object that defines the ordering of the records
+   * @return An iterator over the records in the table, sorted by the given comparator.
+   */
   public Iterator<Record> iterator(Comparator<Record> comparator) {
     // TODO
     List<Record> values = new ArrayList<Record> (this._data.values());
@@ -142,8 +165,11 @@ final class InventorySet implements Inventory {
     return data;
   }
 
+
   /**
-   * Return a reference to the history.
+   * Return the history of commands that have been executed.
+   * 
+   * @return The history of the commands that have been entered.
    */
   CommandHistory getHistory() {
     // TODO

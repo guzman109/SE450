@@ -68,17 +68,27 @@ public class Data {
     return new CmdIn((InventorySet) inventory, video);
   }
   
+
   /**
-   * Returns a command to remove all records from the inventory.
-   */
+   * If the inventory is an InventorySet, then return a new CmdClear object that takes an InventorySet as
+   * a parameter.
+     * Returns a command to remove all records from the inventory.
+
+  * @param inventory the inventory to clear
+  * @return A new instance of the CmdClear class.
+  */
   static public UndoableCommand newClearCmd(Inventory inventory) {
     if (!(inventory instanceof InventorySet))
       throw new IllegalArgumentException();
     return new CmdClear((InventorySet) inventory);
   }
 
+
   /**
+   * If the inventory is an InventorySet, then return the undo command from its history.
    * Returns a command to undo that will undo the last successful UndoableCommand. 
+   * @param inventory the inventory object
+   * @return A command object that can be executed to undo the last command.
    */
   static public RerunnableCommand newUndoCmd(Inventory inventory) {
     if (!(inventory instanceof InventorySet))
@@ -87,7 +97,14 @@ public class Data {
   }
 
   /**
+   * "If the inventory is an InventorySet, return the redo command from its history."
+   * 
+   * The first line of the function is a comment. Comments are ignored by the compiler. They are used to
+   * document the code
+   *    
    * Returns a command to redo that last successfully undone command. 
+   * @param inventory the inventory to be used
+   * @return A command that can be executed to redo the last undone command.
    */
   static public RerunnableCommand newRedoCmd(Inventory inventory) {
     // TODO

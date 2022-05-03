@@ -31,16 +31,31 @@ final class CommandHistoryObj implements CommandHistory {
       }
     };
 
+  /**
+   * Add a command to the undo stack, and clear the redo stack.
+   * 
+   * @param cmd The command to add to the undo stack.
+   */
   public void add(UndoableCommand cmd) {
     // TODO
     _undoStack.push(cmd);
     _redoStack.clear();
   }
   
+  /**
+   * If the undo command is null, then return null, otherwise return the undo command.
+   * 
+   * @return The undo command.
+   */
   public RerunnableCommand getUndo() {
     return _undoCmd;
   }
   
+  /**
+   * Return the command that will redo the last undo.
+   * 
+   * @return The redo command.
+   */
   public RerunnableCommand getRedo() {
     return _redoCmd;
   }
