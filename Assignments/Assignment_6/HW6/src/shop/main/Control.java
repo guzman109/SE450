@@ -112,12 +112,26 @@ class Control {
       new UIMenuAction() {
         public void run() {
           // TODO
+          String[] result = _ui.processForm(_getVideoForm);
+          Video v = Data.newVideo(result[0], Integer.parseInt(result[1]), result[2]);
+                                             
+          Command c = Data.newInCmd(_inventory, v);
+          if (! c.run()) {
+            _ui.displayError("Command failed");
+          }
         }
       });
     m.add("Check out a video",
       new UIMenuAction() {
         public void run() {
           // TODO
+          String[] result = _ui.processForm(_getVideoForm);
+          Video v = Data.newVideo(result[0], Integer.parseInt(result[1]), result[2]);
+                                             
+          Command c = Data.newOutCmd(_inventory, v);
+          if (! c.run()) {
+            _ui.displayError("Command failed");
+          }
         }
       });
     m.add("Print the inventory",
@@ -154,6 +168,21 @@ class Control {
       new UIMenuAction() {
         public void run() {
           // TODO
+          StringBuilder message = new StringBuilder();
+
+          Comparator<Record> comparator = new Comparator<Record>() {
+            public int compare(Record r1, Record r2){
+              return Integer.compare(r2.numRentals(), r1.numRentals());
+
+            }
+          };
+          Iterator<Record> sorted_inventory = _inventory.iterator(comparator);
+          int i = 0;
+          while (sorted_inventory.hasNext() && i < 10) {
+            message.append(sorted_inventory.next().toString() + "\n");
+            i++;
+          }
+          _ui.displayMessage(message.toString());
         }
       });
           
