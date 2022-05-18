@@ -57,4 +57,25 @@ public class DataTEST {
   public void testConstructorExceptionDirector() {
   }
 
+  @Test
+  public void testFlyweight() {
+    String title1 = "XX";
+    String director1 = "XY";
+    String title2 = " XX ";
+    String director2 = " XY ";
+    int year = 2002;
+
+    Video v1 = Data.newVideo(title1, year, director1);
+    Video v2 = Data.newVideo(title1, year, director2);
+    assertTrue(v1==v2);
+
+    Video v3 = Data.newVideo(title1, year, director1);
+    Video v4 = Data.newVideo(title2, year, director2);
+    assertTrue(v3==v4);
+
+    assertTrue(v1==v4);
+    assertTrue(v1==v3);
+    assertTrue(v2==v3);
+    assertTrue(v2==v4);
+  }
 }

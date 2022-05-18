@@ -2,11 +2,12 @@ package shop.data;
 
 import shop.command.RerunnableCommand;
 import shop.command.UndoableCommand;
-
+import java.util.WeakHashMap;
 /**
  * A static class for accessing data objects.
  */
 public class Data {
+  private static WeakHashMap<Integer,Video> _videos = new WeakHashMap<Integer, Video>();
   private Data() {}
   /**
    * Returns a new Inventory.
@@ -22,7 +23,13 @@ public class Data {
    */
   static public Video newVideo(String title, int year, String director) {
     // TODO
-    return new VideoObj(title, year, director);
+    Video v = new VideoObj(title, year, director);
+    Video k = _videos.get(v.hashCode());
+    if (   (k != null))
+      v = k;
+    else
+      _videos.put(v.hashCode(), v);
+    return v;
   }
 
   /**
