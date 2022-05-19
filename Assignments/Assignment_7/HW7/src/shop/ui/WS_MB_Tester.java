@@ -3,7 +3,7 @@ package shop.ui;
 public class WS_MB_Tester {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+    // TODO Auto-generated method stub
       final State _state = new State();
       UI  _ui = new shop.ui.TextUI(); // initialized to a TextUI
 
@@ -28,7 +28,7 @@ public class WS_MB_Tester {
           }
       });
       
-      UIMenu m = mb.toUIMenu("Are you sure you want to exit?");
+      UIMenu m = mb.toUITemplate("Are you sure you want to exit?");
 
       
       UIMenuBuilder mb2 = new UIMenuBuilder();
@@ -45,7 +45,7 @@ public class WS_MB_Tester {
           }
       });
           
-      UIMenu m2 = mb.toUIMenu("Go to choosing exit?");
+      UIMenu m2 = mb.toUITemplate("Go to choosing exit?");
           
           
       UIMenu[] _menus = new UIMenu[2];

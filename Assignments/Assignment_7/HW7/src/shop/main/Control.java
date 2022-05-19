@@ -1,19 +1,20 @@
 package shop.main;
 
 import shop.ui.UI;
-import shop.ui.UIMenu;
 import shop.ui.UIMenuAction;
-import shop.ui.UIMenuBuilder;
 import shop.ui.UIError;
-import shop.ui.UIForm;
 import shop.ui.UIFormTest;
-import shop.ui.UIFormBuilder;
+import shop.ui.UIBuilder;
+import shop.ui.UITemplate;
+import shop.ui.UIFactory;
 import shop.data.Data;
 import shop.data.Inventory;
 import shop.data.Video;
 import shop.data.Record;
 import shop.command.Command;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 class Control {
@@ -21,21 +22,26 @@ class Control {
   private static final int EXIT = 1;
   private static final int START = 2;
   private static final int NUMSTATES = 10;
-  private UIMenu[] _menus;
+  private List<UITemplate<String, UIMenuAction>> _menus;
   private int _state;
 
-  private UIForm _getVideoForm;
+  private UITemplate<String, UIFormTest> _getVideoForm;
   private UIFormTest _numberTest;
   private UIFormTest _stringTest;
     
   private Inventory _inventory;
   private UI _ui;
+
+  private UIFactory factory = new UIFactory();
   
   Control(Inventory inventory, UI ui) {
     _inventory = inventory;
     _ui = ui;
 
-    _menus = new UIMenu[NUMSTATES];
+    _menus = new ArrayList<UITemplate<String, UIMenuAction>> ();
+    for (int i = 0; i < NUMSTATES; i++) {
+      _menus.add(null);
+    }
     _state = START;
     addSTART(START);
     addEXIT(EXIT);
@@ -66,17 +72,18 @@ class Control {
         }
       };
 
-    UIFormBuilder f = new UIFormBuilder();
+    UIBuilder<String, UIFormTest, UITemplate<String, UIFormTest>> f = factory.getFormBuilder();
+
     f.add("Title", _stringTest);
     f.add("Year", yearTest);
     f.add("Director", _stringTest);
-    _getVideoForm = f.toUIForm("Enter Video");
+    _getVideoForm = f.toUITemplate("Enter Video");
   }
   
   void run() {
     try {
       while (_state != EXITED) {
-        _ui.processMenu(_menus[_state]);
+        _ui.processMenu(_menus.get(_state));
       }
     } catch (UIError e) {
       _ui.displayError("UI closed");
@@ -84,7 +91,7 @@ class Control {
   }
   
   private void addSTART(int stateNum) {
-    UIMenuBuilder m = new UIMenuBuilder();
+    UIBuilder<String, UIMenuAction, UITemplate<String, UIMenuAction>> m = factory.getMenuBuilder();
     
     m.add("Default",
       new UIMenuAction() {
@@ -98,9 +105,9 @@ class Control {
           String[] result1 = _ui.processForm(_getVideoForm);
           Video v = Data.newVideo(result1[0], Integer.parseInt(result1[1]), result1[2]);
 
-          UIFormBuilder f = new UIFormBuilder();
+          UIBuilder<String, UIFormTest, UITemplate<String, UIFormTest>> f = factory.getFormBuilder();
           f.add("Number of copies to add/remove", _numberTest);
-          String[] result2 = _ui.processForm(f.toUIForm(""));
+          String[] result2 = _ui.processForm(f.toUITemplate(""));
                                              
           Command c = Data.newAddCmd(_inventory, v, Integer.parseInt(result2[0]));
           if (! c.run()) {
@@ -225,10 +232,10 @@ class Control {
         }
       });
     
-    _menus[stateNum] = m.toUIMenu("Bob's Video");
+    _menus.set(stateNum, m.toUITemplate("Bob's Video"));
   }
   private void addEXIT(int stateNum) {
-    UIMenuBuilder m = new UIMenuBuilder();
+    UIBuilder<String, UIMenuAction, UITemplate<String, UIMenuAction>> m = factory.getMenuBuilder();
     
     m.add("Default", new UIMenuAction() { public void run() {} });
     m.add("Yes",
@@ -244,6 +251,6 @@ class Control {
         }
       });
     
-    _menus[stateNum] = m.toUIMenu("Are you sure you want to exit?");
+    _menus.set(stateNum, m.toUITemplate("Are you sure you want to exit?"));
   }
 }

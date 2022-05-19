@@ -1,8 +1,8 @@
 package shop.ui;
 
 public interface UI {
-  public void processMenu(UIMenu menu);
-  public String[] processForm(UIForm form);
   public void displayMessage(String message);
   public void displayError(String message);
+  public String[] processForm(UITemplate<String, UIFormTest> uiTemplate);
+  public void processMenu(UITemplate<String, UIMenuAction> uiTemplate);
 }

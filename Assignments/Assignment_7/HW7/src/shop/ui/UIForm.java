@@ -1,38 +1,17 @@
 package shop.ui;
 
+import java.util.List;
+
 /**
- * @see UIFormBuilder
+ * @see UIBuilder
  */
-public final class UIForm {
-  private final String _heading;
-  private final Pair[] _form;
-
-  static final class Pair {
-    final String prompt;
-    final UIFormTest test;
-
-    Pair(String thePrompt, UIFormTest theTest) {
-      prompt = thePrompt;
-      test = theTest;
-    }
-  }
-  
-  UIForm(String heading, Pair[] menu) {
-    _heading = heading;
-    _form = menu;
-  }
-  public int size() {
-    return _form.length;
-  }
-  public String getHeading() {
-    return _heading;
-  }
-  public String getPrompt(int i) {
-    return _form[i].prompt;
+final class UIForm extends UITemplate<String, UIFormTest>{
+  UIForm(String heading, List<Pair<String, UIFormTest>> array) {
+    super(heading, array);
   }
   public boolean checkInput(int i, String input) {
-    if (null == _form[i])
+    if (null == this._template.get(i))
       return true;
-    return _form[i].test.run(input);
+    return this._template.get(i).getV().run(input);
   }
 }

@@ -34,7 +34,7 @@ public class TextFormTest {
           f.add("Title", _stringTest);
           f.add("Year", yearTest);
           f.add("Director", _stringTest);
-          UIForm _getVideoForm = f.toUIForm("Enter Video");
+          UIForm _getVideoForm = f.toUITemplate("Enter Video");
           String[] result2 = _ui.processForm(_getVideoForm);
     }
 }

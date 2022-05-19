@@ -8,10 +8,11 @@ public class Main {
   private Main() {}
   public static void main(String[] args) {
     UI ui;
+    UIFactory factory = new UIFactory();
     if (Math.random() <= 0.5) {
-      ui = new shop.ui.TextUI();
+      ui = factory.getUI("TextUI");
     } else {
-      ui = new shop.ui.PopupUI();
+      ui = factory.getUI("PopupUI");
     }
     Control control = new Control(Data.newInventory(), ui);
     control.run();
