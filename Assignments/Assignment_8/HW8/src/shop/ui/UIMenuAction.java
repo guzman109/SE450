@@ -1,5 +1,5 @@
 package shop.ui;
 
 public interface UIMenuAction {
-  public void run();
+  public void run(UI ui, UIForm form);
 }
