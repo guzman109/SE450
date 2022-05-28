@@ -1,9 +1,9 @@
 package shop.main;
 
 import shop.ui.UI;
-import shop.ui.UIMenuAction;
 import shop.ui.UIError;
 import shop.ui.UIFormTest;
+import shop.ui.UIMenuAction;
 import shop.ui.UIBuilder;
 import shop.ui.UITemplate;
 import shop.ui.UIFactory;

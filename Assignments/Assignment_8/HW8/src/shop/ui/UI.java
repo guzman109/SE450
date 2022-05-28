@@ -1,5 +1,6 @@
 package shop.ui;
 
+
 public interface UI {
   public void displayMessage(String message);
   public void displayError(String message);

@@ -1,5 +1,7 @@
 package shop.ui;
+import shop.data.Inventory;
 
 public interface UIMenuAction {
-  public void run(UI ui, UIForm form);
+  public String getPrompt();
+  public void run(UI ui, Inventory inventory);
 }
