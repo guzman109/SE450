@@ -38,12 +38,13 @@ public enum UIForm implements UITemplate<String, UIFormTest>{
       return this._template.get(i).getU();
   }
 
-  public void runAction(int selection) {
-  }
-
   public boolean checkInput(int i, String response) {
     if (null == this._template.get(i))
       return true;
     return this._template.get(i).getV().run(response);
+  }
+
+  public void runAction(int selection) {
+    ;    
   }
 }

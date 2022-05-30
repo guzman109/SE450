@@ -18,15 +18,5 @@ public class UIFactory {
       return null;
     }
   }
-  public UIFormBuilder getFormBuilder() {
-      return new UIFormBuilder();
-  }
-  public UIMenuBuilder getMenuBuilder() {
-      return new UIMenuBuilder();
-  }
-
-  // public UITemplate<U,V> getTemplate(String template_type) {
-  //   return new UIMenu("", ne);
-  // }
 
 }

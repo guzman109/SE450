@@ -9,7 +9,7 @@ public class Main {
   public static void main(String[] args) {
     UI ui;
     UIFactory factory = new UIFactory();
-    if (Math.random() <= 0.5) {
+    if (Math.random() <= 0.1) {
       ui = factory.getUI("TextUI");
     } else {
       ui = factory.getUI("PopupUI");
