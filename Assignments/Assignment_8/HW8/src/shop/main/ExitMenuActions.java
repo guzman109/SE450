@@ -1,5 +1,7 @@
 package shop.main;
 
+import shop.data.Inventory;
+import shop.ui.UI;
 import shop.ui.UIMenuAction;
 
 enum ExitMenuActions implements UIMenuAction{
@@ -20,12 +22,14 @@ enum ExitMenuActions implements UIMenuAction{
     };
     private final String _prompt;
     protected int STATE;
+
     private ExitMenuActions(String prompt) {
         this._prompt = prompt;
     }
     public String getPrompt() {
         return this._prompt;
     }
+
     public int getState() {
         return this.STATE;
     }

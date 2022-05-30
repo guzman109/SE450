@@ -14,7 +14,6 @@ final class PopupUI implements UI {
 
   // public void processMenu(UIMenu menu) {
   public void processMenu(UITemplate<String, UIMenuAction> menu) {
-    System.out.println(menu.getHeading());
     StringBuilder b = new StringBuilder();
     b.append(menu.getHeading());
     b.append("\n");
