@@ -43,21 +43,6 @@ enum UIMenu implements UITemplate<String, UIMenuAction> {
         this.inventory = inventory;
         this.build_menu();
     }
-    // public void setUI(UI ui) {
-    //     this.ui = ui;
-    // }
-
-    // public UI getUI() {
-    //     return this.ui;
-    // }
-
-    // public void setInventory(Inventory inventory) {
-    //     this.inventory = inventory;
-    // }
-
-    // public Inventory getInventory() {
-    //     return this.inventory;
-    // }
 
     public int getState() {
         return this.STATE;
